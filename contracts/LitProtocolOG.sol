@@ -13,9 +13,10 @@ contract LitProtocolOG is ERC721, Ownable {
 
     constructor() ERC721("Lit Protocol OG", "LITOG") {}
 
-    function safeMint(address to) public onlyOwner {
+    function safeMint(address to) public onlyOwner returns (uint256) {
         _tokenIdCounter.increment();
         _safeMint(to, _tokenIdCounter.current());
+        return _tokenIdCounter.current();
     }
 
     function setURI(string memory newURI) public onlyOwner {
