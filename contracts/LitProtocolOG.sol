@@ -10,10 +10,18 @@ contract LitProtocolOG is ERC721, Ownable {
 
     Counters.Counter private _tokenIdCounter;
     string public baseURI;
+    uint public maxMintable = 10000;
 
     constructor() ERC721("Lit Protocol OG", "LITOG") {}
 
+    function batchMint(uint256 amount) public onlyOwner {
+        for(uint256 i = 0; i < amount; i++){
+            safeMint(owner());
+        }
+    }
+
     function safeMint(address to) public onlyOwner returns (uint256) {
+        require(_tokenIdCounter.current() < maxMintable, "All tokens have already been minted");
         _tokenIdCounter.increment();
         _safeMint(to, _tokenIdCounter.current());
         return _tokenIdCounter.current();
